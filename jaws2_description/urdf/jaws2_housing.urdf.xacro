@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="base_link">
+    <inertial>
+      <mass value="${housing_mass}" />
+      <xacro:insert_block name="housing_inertia" />
+    </inertial>
+  </link>
+
+    <xacro:macro name="gasket" params="pre lnk fa d">
+    <joint name="${pre}_gasket_joint" type="fixed">
+      <origin xyz="${fa*gasket_x} 0 0" rpy="0 0 0" />
+      <parent link="base_link" />
+      <child link="${pre}_gasket" />
+    </joint>
+    <link name="${pre}_gasket">
+      <inertial>
+        <mass value="${gasket_mass}" />
+        <xacro:insert_block name="gasket_inertia" />
+      </inertial>
+      <visual>
+        <xacro:insert_block name="cylinder_fix" />
+        <geometry>
+          <cylinder radius="${housing_radius}" length="${gasket_length}" />
+        </geometry>
+        <material name="Orange" />
+      </visual>
+      <collision>
+        <xacro:insert_block name="cylinder_fix" />
+        <geometry>
+          <cylinder radius="${housing_radius}" length="${gasket_length}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${lnk}_joint" type="fixed">
+      <origin xyz="${d} 0 0" rpy="0 0 0" />
+      <parent link="${pre}_gasket" />
+      <child link="${lnk}" />
+    </joint>
+  </xacro:macro>
+  <xacro:gasket pre="fwd" lnk="dome" fa="1" d="${gasket_length/2}" />
+  <xacro:gasket pre="aft" lnk="endcap" fa="-1" d="${-(endcap_length+gasket_length)/2}" />
+
+  <link name="dome">
+    <inertial>
+      <mass value="${dome_mass}" />
+      <xacro:insert_block name="dome_inertia" />
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="${housing_radius}" />
+      </geometry>
+      <material name="Grey" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${housing_radius}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="endcap">
+    <inertial>
+      <mass value="${endcap_mass}" />
+      <xacro:insert_block name="endcap_inertia" />
+    </inertial>
+    <visual>
+      <xacro:insert_block name="cylinder_fix" />
+      <geometry>
+        <cylinder radius="${housing_radius}" length="${endcap_length}" />
+      </geometry>
+      <material name="Grey" />
+    </visual>
+    <collision>
+      <xacro:insert_block name="cylinder_fix" />
+      <geometry>
+        <cylinder radius="${housing_radius}" length="${endcap_length}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:macro name="servo" params="prefix reflect mirror">
+    <joint name="${prefix}_servo" type="revolute">
+      <origin xyz="${shaft_x} ${reflect*shaft_y} 0" rpy="0 ${2*M_PI/3} ${mirror}"/>
+      <parent link="base_link" />
+      <child link="${prefix}_servo_shaft" />
+      <axis xyz="0 1 0" />
+      <limit lower="0" upper="${5*M_PI/6}" effort="1.4994" velocity="1.9666" />
+    </joint>
+    <link name="${prefix}_servo_shaft">
+      <inertial>
+        <mass value="${shaft_mass}" />
+        <xacro:insert_block name="shaft_inertia" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${shaft_radius}" length="${shaft_length}" />
+        </geometry>
+        <material name="DarkGrey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${shaft_radius}" length="${shaft_length}" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+  <xacro:servo prefix="port" reflect="1" mirror="0"/>
+  <xacro:servo prefix="stbd" reflect="-1" mirror="${M_PI}"/>
+
+  <link name="aft_thruster_riser">
+    <inertial>
+      <mass value="${riser_mass}" />
+      <xacro:insert_block name="riser_inertia" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="${0.75*riser_length} ${0.55*riser_width} ${riser_height}" />
+      </geometry>
+      <material name="DarkGrey" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${riser_length} ${riser_width} ${riser_height}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="aft_thruster_riser_joint" type="fixed">
+    <origin xyz="${riser_x} 0 ${riser_z}" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="aft_thruster_riser" />
+  </joint>
+
+</robot>
