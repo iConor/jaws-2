@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- http://www.seabotix.com/products/pdf_files/BTD150_Data_Sheet.pdf -->
+
+  <xacro:include filename="seabotix_properties.urdf.xacro" />
+
+  <!-- Build the Thrusters -->
+
+  <xacro:macro name="thruster" params="prefix">
+
+    <link name="${prefix}_thruster">
+      <inertial>
+        <mass value="${thruster_mass}" />
+        <xacro:insert_block name="thruster_inertia" />
+      </inertial>
+      <visual>
+        <xacro:insert_block name="cylinder_fix" />
+        <geometry>
+          <cylinder radius="${body_radius}" length="${body_length-(2*body_radius)}" />
+        </geometry>
+        <material name="Grey" />
+      </visual>
+      <collision>
+        <xacro:insert_block name="cylinder_fix" />
+        <geometry>
+          <cylinder radius="${body_radius}" length="${body_length}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="${prefix}_thruster_nose_cone">
+      <visual>
+        <geometry>
+          <sphere radius="${body_radius}" />
+        </geometry>
+        <material name="DarkGrey" />
+      </visual>
+    </link>
+
+    <link name="${prefix}_thruster_nozzle">
+      <visual>
+        <xacro:insert_block name="cylinder_fix" />
+        <geometry>
+          <cylinder radius="${nozzle_radius}" length="${nozzle_length}" />
+        </geometry>
+        <material name="DarkGrey" />
+      </visual>
+    </link>
+
+    <joint name="${prefix}_thruster_nose_cone" type="fixed">
+      <origin xyz="${body_length/2-body_radius} 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}_thruster" />
+      <child link="${prefix}_thruster_nose_cone" />
+    </joint>
+
+    <joint name="${prefix}_thruster_nozzle" type="fixed">
+      <origin xyz="-${(body_length-nozzle_length)/2} 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}_thruster" />
+      <child link="${prefix}_thruster_nozzle" />
+    </joint>
+
+  </xacro:macro>
+  <xacro:thruster prefix="port" />
+  <xacro:thruster prefix="stbd" />
+  <xacro:thruster prefix="aft" />
+
+  <!-- Attach the Thrusters -->
+
+  <xacro:macro name="thruster_joints" params="prefix">
+    <joint name="${prefix}_thruster_joint" type="fixed">
+      <origin xyz="0 ${body_radius+shaft_length/2} 0" rpy="0 0 0"/>
+      <parent link="${prefix}_servo_shaft" />
+      <child link="${prefix}_thruster" />
+    </joint>
+  </xacro:macro>
+  <xacro:thruster_joints prefix="port" />
+  <xacro:thruster_joints prefix="stbd" />
+
+  <joint name="aft_thruster_joint" type="fixed">
+    <origin xyz="${aft_thruster_x} 0 ${body_radius+riser_height/2}" rpy="0 0 0" />
+    <parent link="aft_thruster_riser" />
+    <child link="aft_thruster" />
+  </joint>
+
+</robot>

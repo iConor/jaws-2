@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="thruster_mass" value="0.7090" />
+  <xacro:property name="thruster_mass_ctr" value="0 0 0" />
+
+  <xacro:property name="thruster_volume" value="0.00036933" />
+  <xacro:property name="thruster_vol_ctr" value="0 0 0" />
+
+  <xacro:property name="body_radius" value="0.02222500" />
+  <xacro:property name="nozzle_radius" value="0.04740000" />
+  <xacro:property name="body_length" value="0.17610000" />
+  <xacro:property name="nozzle_length" value="0.05030000" />
+  <xacro:property name="aft_thruster_x" value="-0.02931250" />
+  <xacro:property name="thruster_inertia">
+    <inertia ixx="0.00017511" ixy="0.0000" ixz="0.0000"
+             iyy="0.00191980" iyz="0.0000"
+             izz="0.00191980"/>
+  </xacro:property>
+
+  <xacro:macro name="thruster_gazebo" params="prefix">
+    <gazebo reference="${prefix}_thruster">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="${prefix}_thruster_nose_cone">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="${prefix}_thruster_nozzle">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+  </xacro:macro>
+  <xacro:thruster_gazebo prefix="port" />
+  <xacro:thruster_gazebo prefix="stbd" />
+  <xacro:thruster_gazebo prefix="aft" />
+
+</robot>
