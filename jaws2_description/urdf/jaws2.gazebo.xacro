@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!--  Gazebo  -->
+
+  <gazebo>
+
+    <!--  Buoyancy  -->
+
+    <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so" />
+<!--
+          <link name="dome">
+            <center_of_volume>${dome_volume_ctr}</center_of_volume>
+            <volume>${dome_volume}</volume>
+          </link>
+-->
+
+    <!--  Controls  -->
+
+    <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
+      <bodyName>aft_thruster</bodyName>
+      <topicName>aft_thrust</topicName>
+    </plugin>
+
+    <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
+      <bodyName>port_thruster</bodyName>
+      <topicName>port_thrust</topicName>
+    </plugin>
+
+    <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
+      <bodyName>stbd_thruster</bodyName>
+      <topicName>stbd_thrust</topicName>
+    </plugin>
+
+  </gazebo>
+
+  <!--  Simulation Materials  -->
+
+  <gazebo reference="dome">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="mid_housing">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="endcap">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <gazebo reference="aft_thruster_mount">
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="aft_thruster_riser">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <xacro:macro name="gazebo_materials" params="fa ps">
+    <gazebo reference="${fa}_housing">
+      <material>Gazebo/FlatBlack</material>
+    </gazebo>
+    <gazebo reference="${fa}_gasket">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="${ps}_thruster_mount">
+      <material>Gazebo/FlatBlack</material>
+    </gazebo>
+    <gazebo reference="${ps}_servo_shaft">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+  </xacro:macro>
+  <xacro:gazebo_materials fa="fwd" ps="port" />
+  <xacro:gazebo_materials fa="aft" ps="stbd" />
+
+</robot>
