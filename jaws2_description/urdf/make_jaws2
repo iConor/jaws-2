@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo -e "\nRunning...\n    rosrun xacro xacro jaws2.urdf.xacro > jaws2.urdf"
+rosrun xacro xacro jaws2.urdf.xacro > jaws2.urdf || exit
+echo -e "Build complete\n"
+
+echo -e "Running...\n    check_urdf jaws2.urdf"
+check_urdf jaws2.urdf > /dev/null || exit
+echo -e "Check complete\n"
+
+echo -e "Running...\n    gz sdf -k jaws2.urdf"
+gz sdf -k jaws2.urdf || exit
+echo -e "\nRobot ready\n"
