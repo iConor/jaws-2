@@ -23,6 +23,12 @@
         </geometry>
         <material name="FlatBlack" />
       </visual>
+      <collision>
+        <xacro:insert_block name="cylinder_fix" />
+        <geometry>
+          <cylinder radius="${radius}" length="${length}" />
+        </geometry>
+      </collision>
     </link>
   </xacro:macro>
   <xacro:links prefix="fwd" radius="${housing_radius}" length="${fwd_length}"/>

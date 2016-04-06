@@ -206,6 +206,12 @@
       </geometry>
       <material name="FlatBlack"/>
     </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0492" radius="0.0762"/>
+      </geometry>
+    </collision>
   </link>
   <link name="mid_housing">
     <visual>
@@ -215,6 +221,12 @@
       </geometry>
       <material name="FlatBlack"/>
     </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.2826" radius="0.06985"/>
+      </geometry>
+    </collision>
   </link>
   <link name="aft_housing">
     <visual>
@@ -224,6 +236,12 @@
       </geometry>
       <material name="FlatBlack"/>
     </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0238" radius="0.0762"/>
+      </geometry>
+    </collision>
   </link>
   <!-- Thruster Mounting Points -->
   <joint name="aft_thruster_mount_joint" type="fixed">
