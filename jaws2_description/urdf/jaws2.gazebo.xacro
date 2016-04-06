@@ -9,9 +9,7 @@
 
     <!--  Servo Simulation Interface  -->
 
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/jaws2</robotNamespace>
-    </plugin>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
 
     <!--  Thruster Simulation Interface  -->
 

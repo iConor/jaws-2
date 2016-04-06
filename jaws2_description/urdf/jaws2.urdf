@@ -343,7 +343,6 @@
     <plugin filename="libBuoyancyPlugin.so" name="BuoyancyPlugin"/>
     <!--  Servo Simulation Interface  -->
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <robotNamespace>/jaws2</robotNamespace>
     </plugin>
     <!--  Thruster Simulation Interface  -->
     <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">

@@ -1,13 +1,7 @@
 <launch>
-
-  <rosparam file="$(find jaws2_control)/config/jaws2_control.yaml" command="load"/>
-
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/jaws2" args="port_servo_position_controller stbd_servo_position_controller joint_state_controller"/>
-
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-    respawn="false" output="screen">
-    <remap from="/joint_states" to="/jaws2/joint_states" />
-  </node>
-
+  <rosparam command="load" file="$(find jaws2_control)/config/jaws2_control.yaml"/>
+  <arg name="controllers" value="port_servo_position_controller stbd_servo_position_controller joint_state_controller"/>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" output="screen" args="$(arg controllers)"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
+  <include file="$(find jaws2_description)/launch/jaws2_description.launch"/>
 </launch>
