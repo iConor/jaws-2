@@ -8,14 +8,16 @@
 #include "ceres/ceres.h"
 #include "glog/logging.h"
 
-#undef debug
+#define debug
+#undef report
+#undef progress
 
-double r = 0.10;
-double l = 0.60;
+double r = 0.0762;
+double l = 0.5223;
 
-double r_x = 0.14;
-double r_y = 0.13;
-double r_z = 0.10;
+double r_x = 0.142875;
+double r_y = 0.131763;
+double r_z = 0.112713;
 
 double mass = 9.4;
 
@@ -120,8 +122,8 @@ Solver::Solver(char** argv)
   forces = nh.advertise<jaws2_msgs::ThrustStamped>("solver/thrust", 1);
 
   angles.name.resize(2);
-  angles.name[0] = "port-base";
-  angles.name[1] = "stbd-base";
+  angles.name[0] = "port_servo";
+  angles.name[1] = "stbd_servo";
   angles.position.resize(2);
 
   google::InitGoogleLogging(argv[0]);
@@ -142,25 +144,25 @@ Solver::Solver(char** argv)
                            NULL,
                            &f_s, &f_p, &t_s, &t_p);
 
-  problem.SetParameterLowerBound(&f_a, 0, -25.0);
-  problem.SetParameterUpperBound(&f_a, 0, 25.0);
+  problem.SetParameterLowerBound(&f_a, 0, -18.0);
+  problem.SetParameterUpperBound(&f_a, 0, 18.0);
 
-  problem.SetParameterLowerBound(&f_s, 0, -25.0);
-  problem.SetParameterUpperBound(&f_s, 0, 25.0);
+  problem.SetParameterLowerBound(&f_s, 0, -18.0);
+  problem.SetParameterUpperBound(&f_s, 0, 18.0);
 
-  problem.SetParameterLowerBound(&f_p, 0, -25.0);
-  problem.SetParameterUpperBound(&f_p, 0, 25.0);
+  problem.SetParameterLowerBound(&f_p, 0, -18.0);
+  problem.SetParameterUpperBound(&f_p, 0, 18.0);
 
-  problem.SetParameterLowerBound(&t_s, 0, -M_PI/2);
-  problem.SetParameterUpperBound(&t_s, 0, M_PI/2);
+  problem.SetParameterLowerBound(&t_s, 0, -2*M_PI/3);
+  problem.SetParameterUpperBound(&t_s, 0, 2*M_PI/3);
 
-  problem.SetParameterLowerBound(&t_p, 0, -M_PI/2);
-  problem.SetParameterUpperBound(&t_p, 0, M_PI/2);
+  problem.SetParameterLowerBound(&t_p, 0, -2*M_PI/3);
+  problem.SetParameterUpperBound(&t_p, 0, 2*M_PI/3);
 
   options.max_num_iterations = 100;
   options.linear_solver_type = ceres::DENSE_QR;
 
-#ifdef debug
+#ifdef progress
   options.minimizer_progress_to_stdout = true;
 #endif
 }
@@ -176,11 +178,11 @@ void Solver::callback(const geometry_msgs::Accel::ConstPtr& a)
 
   // These forced initial guesses don't make much of a difference.
   // We currently experience a sort of gimbal lock w/ or w/o them.
-  f_a = 0.0;
+/*  f_a = 0.0;
   f_s = 0.0;
   f_p = 0.0;
   t_s = 0.0;
-  t_p = 0.0;
+  t_p = 0.0; */
 
 #ifdef debug
   std::cout << "Initial f_a = " << f_a
@@ -193,8 +195,10 @@ void Solver::callback(const geometry_msgs::Accel::ConstPtr& a)
 
   ceres::Solve(options, &problem, &summary);
 
-#ifdef debug
+#ifdef report
   std::cout << summary.FullReport() << std::endl;
+#endif
+#ifdef debug
   std::cout << "Final f_a = " << f_a
             << ", f_s = " << f_s
             << ", f_p = " << f_p
