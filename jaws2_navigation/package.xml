@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>jaws2_solver</name>
+  <name>jaws2_navigation</name>
   <version>0.0.0</version>
-  <description>Jaws 2's thrust mapping in Ceres Solver.</description>
+  <description>Navigation package for Jaws 2.</description>
 
   <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
 
