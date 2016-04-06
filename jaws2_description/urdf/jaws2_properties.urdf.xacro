@@ -37,7 +37,8 @@
   <xacro:property name="fwd_length" value="0.0492" />
   <xacro:property name="mid_length" value="0.2826" />
   <xacro:property name="aft_length" value="0.0238" />
-  <xacro:property name="housing_mass" value="1.8914" />
+  <xacro:property name="housing_mass" value="5.7914" />
+  <!-- Mass: 1.8914 -->
   <xacro:property name="housing_inertia">
     <inertia ixx="0.00921641" ixy="0.0" ixz="0.0"
              iyy="0.03285281" iyz="0.0"

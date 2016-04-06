@@ -7,9 +7,10 @@
   <!-- Port & Stbd Thruster Servo Shafts -->
   <!-- Aft Thruster Riser -->
   <!-- Housing -->
+  <!-- Mass: 1.8914 -->
   <link name="base_link">
     <inertial>
-      <mass value="1.8914"/>
+      <mass value="5.7914"/>
       <inertia ixx="0.00921641" ixy="0.0" ixz="0.0" iyy="0.03285281" iyz="0.0" izz="0.03285281"/>
     </inertial>
   </link>
@@ -109,11 +110,11 @@
     </collision>
   </link>
   <joint name="port_servo" type="revolute">
-    <origin rpy="0 2.09439510667 0" xyz="0.142875 0.09763125 0"/>
+    <origin rpy="0 -1.57079633 0" xyz="0.142875 0.09763125 0"/>
     <parent link="base_link"/>
     <child link="port_servo_shaft"/>
     <axis xyz="0 1 0"/>
-    <limit effort="1.4994" lower="0" upper="5.23598776667" velocity="1.9666"/>
+    <limit effort="1.4994" lower="-2.09439510667" upper="2.09439510667" velocity="1.9666"/>
   </joint>
   <link name="port_servo_shaft">
     <inertial>
@@ -135,11 +136,11 @@
     </collision>
   </link>
   <joint name="stbd_servo" type="revolute">
-    <origin rpy="0 2.09439510667 3.14159266" xyz="0.142875 -0.09763125 0"/>
+    <origin rpy="0 -1.57079633 3.14159266" xyz="0.142875 -0.09763125 0"/>
     <parent link="base_link"/>
     <child link="stbd_servo_shaft"/>
     <axis xyz="0 1 0"/>
-    <limit effort="1.4994" lower="0" upper="5.23598776667" velocity="1.9666"/>
+    <limit effort="1.4994" lower="-2.09439510667" upper="2.09439510667" velocity="1.9666"/>
   </joint>
   <link name="stbd_servo_shaft">
     <inertial>
