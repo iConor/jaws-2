@@ -79,6 +79,7 @@
     <visual>
       <geometry>
         <sphere radius="0.0762"/>
+        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl" /> -->
       </geometry>
       <material name="Grey"/>
     </visual>
@@ -112,7 +113,7 @@
     <parent link="base_link"/>
     <child link="port_servo_shaft"/>
     <axis xyz="0 1 0"/>
-    <limit effort="1.4994" lower="0" upper="2.61799388333" velocity="1.9666"/>
+    <limit effort="1.4994" lower="0" upper="5.23598776667" velocity="1.9666"/>
   </joint>
   <link name="port_servo_shaft">
     <inertial>
@@ -138,7 +139,7 @@
     <parent link="base_link"/>
     <child link="stbd_servo_shaft"/>
     <axis xyz="0 1 0"/>
-    <limit effort="1.4994" lower="0" upper="2.61799388333" velocity="1.9666"/>
+    <limit effort="1.4994" lower="0" upper="5.23598776667" velocity="1.9666"/>
   </joint>
   <link name="stbd_servo_shaft">
     <inertial>
