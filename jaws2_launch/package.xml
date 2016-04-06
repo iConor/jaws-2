@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>jaws2_launch</name>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <description>Launch files for Jaws 2.</description>
 
   <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
@@ -14,7 +14,7 @@
   <author email="cary.42@osu.edu">Conor Cary</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-  
+
   <run_depend>imu_3dm_gx4</run_depend>
 
   <export>

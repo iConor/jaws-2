@@ -10,7 +10,3 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_executable(serial_port src/serial_port.cpp)
 add_dependencies(serial_port jaws2_msgs_gencpp)
 target_link_libraries(serial_port ${catkin_LIBRARIES})
-
-add_executable(thrust_cal src/thrust_cal.cpp)
-add_dependencies(thrust_cal jaws2_msgs_gencpp)
-target_link_libraries(thrust_cal ${catkin_LIBRARIES})
