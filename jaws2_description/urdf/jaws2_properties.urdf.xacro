@@ -3,7 +3,51 @@
 
   <xacro:property name="M_PI" value="3.14159266" />
 
-<!-- Port & Stbd Thruster Servo Shafts -->
+  <!--  Housing Properties  -->
+
+  <xacro:property name="housing_radius" value="0.0762" />
+  <xacro:property name="middle_radius" value="0.06985" />
+  <xacro:property name="fwd_length" value="0.0492" />
+  <xacro:property name="mid_length" value="0.2826" />
+  <xacro:property name="aft_length" value="0.0238" />
+  <xacro:property name="housing_mass" value="1.8914" />
+  <xacro:property name="housing_inertia">
+    <inertia ixx="0.00921641" ixy="0.0" ixz="0.0"
+             iyy="0.03285281" iyz="0.0"
+             izz="0.03285281" />
+  </xacro:property>
+
+  <!-- Gasket Properties  -->
+
+  <xacro:property name="gasket_length" value="0.0032" />
+  <xacro:property name="gasket_x" value="0.1794" />
+  <xacro:property name="gasket_mass" value="0.0165" />
+  <xacro:property name="gasket_inertia">
+    <inertia ixx="0.00004790" ixy="0.0" ixz="0.0"
+             iyy="0.00002397" iyz="0.0"
+             izz="0.00002397" />
+  </xacro:property>
+
+  <!--  Dome Properties  -->
+
+  <xacro:property name="dome_mass" value="0.7700" />
+  <xacro:property name="dome_inertia">
+    <inertia ixx="0.003" ixy="0.0" ixz="0.0"
+             iyy="0.003" iyz="0.0"
+             izz="0.003" />
+  </xacro:property>
+
+  <!--  Endcap Properties  -->
+
+  <xacro:property name="endcap_length" value="0.0200" />
+  <xacro:property name="endcap_mass" value="0.1925" />
+  <xacro:property name="endcap_inertia">
+  <inertia ixx="0.000" ixy="0.0" ixz="0.0"
+           iyy="0.003" iyz="0.0"
+           izz="0.003" />
+  </xacro:property>
+
+<!--  Port & Stbd Servo Propeties  -->
 
   <xacro:property name="shaft_radius" value="0.01580619" />
   <xacro:property name="shaft_length" value="0.02381250" />
@@ -16,7 +60,7 @@
              izz="0.00000444" />
   </xacro:property>
 
-<!-- Aft Thruster Riser -->
+<!--  Aft Thruster Riser Properties  -->
 
   <xacro:property name="riser_length" value="0.0260" />
   <xacro:property name="riser_width" value="0.0260" />
@@ -30,47 +74,28 @@
              izz="0.00000262" />
   </xacro:property>
 
-<!-- Housing -->
-
-  <xacro:property name="housing_radius" value="0.0762" />
-  <xacro:property name="middle_radius" value="0.06985" />
-  <xacro:property name="fwd_length" value="0.0492" />
-  <xacro:property name="mid_length" value="0.2826" />
-  <xacro:property name="aft_length" value="0.0238" />
-  <xacro:property name="housing_mass" value="5.7914" />
-  <!-- Mass: 1.8914 -->
-  <xacro:property name="housing_inertia">
-    <inertia ixx="0.00921641" ixy="0.0" ixz="0.0"
-             iyy="0.03285281" iyz="0.0"
-             izz="0.03285281" />
-  </xacro:property>
-
-  <xacro:property name="gasket_length" value="0.0032" />
-  <xacro:property name="gasket_x" value="0.1794" />
-  <xacro:property name="gasket_mass" value="0.0165" />
-  <xacro:property name="gasket_inertia">
-    <inertia ixx="0.00004790" ixy="0.0" ixz="0.0"
-             iyy="0.00002397" iyz="0.0"
-             izz="0.00002397" />
-  </xacro:property>
-
-  <xacro:property name="dome_mass" value="0.7700" />
-  <xacro:property name="dome_inertia">
-    <inertia ixx="0.003" ixy="0.0" ixz="0.0"
-             iyy="0.003" iyz="0.0"
-             izz="0.003" />
-  </xacro:property>
-
-  <xacro:property name="endcap_length" value="0.0200" />
-  <xacro:property name="endcap_mass" value="0.1925" />
-  <xacro:property name="endcap_inertia">
-  <inertia ixx="0.000" ixy="0.0" ixz="0.0"
-           iyy="0.003" iyz="0.0"
-           izz="0.003" />
-  </xacro:property>
+  <!--  Miscellaneous  -->
 
   <xacro:property name="cylinder_fix">
     <origin xyz="0 0 0" rpy="0 ${M_PI/2} 0" />
   </xacro:property>
+
+    <!--  Rviz Materials  -->
+
+    <material name="FlatBlack">
+      <color rgba="0.1 0.1 0.1 1.0" />
+    </material>
+    <material name="DarkGrey">
+      <color rgba="0.175 0.175 0.175 1.0" />
+    </material>
+    <material name="Grey">
+      <color rgba="0.3 0.3 0.3 1.0" />
+    </material>
+    <material name="GreyTransparent">
+      <color rgba="0.5 0.5 0.5 0.5" />
+    </material>
+    <material name="Orange">
+      <color rgba="1 0.5088 0.0468 1" />
+    </material>
 
 </robot>

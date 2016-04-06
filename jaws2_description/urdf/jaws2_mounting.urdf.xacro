@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--  Port & Starboard Servos  -->
+
+  <xacro:macro name="servo" params="prefix reflect mirror">
+    <joint name="${prefix}_servo" type="revolute">
+      <origin xyz="${shaft_x} ${reflect*shaft_y} 0" rpy="0 ${-M_PI/2} ${mirror}"/>
+      <parent link="housing" />
+      <child link="${prefix}_servo_shaft" />
+      <axis xyz="0 1 0" />
+      <limit lower="${-2*M_PI/3}" upper="${2*M_PI/3}" effort="1.4994" velocity="1.9666" />
+    </joint>
+    <link name="${prefix}_servo_shaft">
+      <inertial>
+        <mass value="${shaft_mass}" />
+        <xacro:insert_block name="shaft_inertia" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${shaft_radius}" length="${shaft_length}" />
+        </geometry>
+        <material name="DarkGrey" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${shaft_radius}" length="${shaft_length}" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+  <xacro:servo prefix="port" reflect="1" mirror="0"/>
+  <xacro:servo prefix="stbd" reflect="-1" mirror="${M_PI}"/>
+
+  <!--  Aft Thruster Riser  -->
+
+  <joint name="aft_thruster_riser_joint" type="fixed">
+    <origin xyz="${riser_x} 0 ${riser_z}" rpy="0 0 0" />
+    <parent link="housing" />
+    <child link="aft_thruster_riser" />
+  </joint>
+
+  <link name="aft_thruster_riser">
+    <inertial>
+      <mass value="${riser_mass}" />
+      <xacro:insert_block name="riser_inertia" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="${0.75*riser_length} ${0.55*riser_width} ${riser_height}" />
+      </geometry>
+      <material name="DarkGrey" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${riser_length} ${riser_width} ${riser_height}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--  Port & Stbd Shaft Seals  -->
+
+  <xacro:macro name="thruster_mounts" params="prefix reflect">
+    <joint name="${prefix}_thruster_mount_joint" type="fixed">
+      <origin xyz="${shaft_x} ${reflect*(shaft_y-shaft_length)} 0" rpy="0 0 0"/>
+      <parent link="housing" />
+      <child link="${prefix}_thruster_mount" />
+    </joint>
+    <link name="${prefix}_thruster_mount">
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+        <geometry>
+          <cylinder radius="${shaft_radius*0.75}" length="${shaft_length}" />
+        </geometry>
+        <material name="FlatBlack" />
+      </visual>
+    </link>
+  </xacro:macro>
+  <xacro:thruster_mounts prefix="port" reflect="1"/>
+  <xacro:thruster_mounts prefix="stbd" reflect="-1"/>
+
+  <!--  Aft Thruster Mounting Point  -->
+
+  <joint name="aft_thruster_mount_joint" type="fixed">
+    <origin xyz="${riser_x} 0 ${riser_z-riser_height}" rpy="0 0 0" />
+    <parent link="housing" />
+    <child link="aft_thruster_mount" />
+  </joint>
+
+  <link name="aft_thruster_mount">
+    <visual>
+      <geometry>
+        <cylinder radius="${riser_length/2}" length="${riser_height}" />
+      </geometry>
+      <material name="FlatBlack" />
+    </visual>
+  </link>
+
+</robot>

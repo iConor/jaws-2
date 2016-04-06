@@ -1,9 +1,42 @@
 <?xml version="1.0"?>
 <robot name="jaws2" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="jaws2_properties.urdf.xacro" />
+  <!-- Servo Interface -->
+
+  <transmission name="port">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="port_servo">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="port_servo_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="stbd">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="stbd_servo">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="stbd_servo_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!--  Dummy Link  -->
+
+  <link name="base_link" />
+
+  <joint name="housing" type="fixed">
+    <parent link="base_link" />
+    <child link="housing" />
+  </joint>
+
   <xacro:include filename="jaws2_housing.urdf.xacro" />
-  <xacro:include filename="jaws2_visual.urdf.xacro" />
+  <xacro:include filename="jaws2_mounting.urdf.xacro" />
+  <xacro:include filename="jaws2_properties.urdf.xacro" />
   <xacro:include filename="jaws2.gazebo.xacro" />
   <xacro:include filename="seabotix_thrusters.urdf.xacro" />
 

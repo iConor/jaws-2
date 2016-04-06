@@ -1,21 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-<!--  Gazebo  -->
-
   <gazebo>
 
     <!--  Buoyancy  -->
 
     <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so" />
-<!--
-          <link name="dome">
-            <center_of_volume>${dome_volume_ctr}</center_of_volume>
-            <volume>${dome_volume}</volume>
-          </link>
--->
 
-    <!--  Controls  -->
+    <!--  Servo Simulation Interface  -->
+
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/jaws2</robotNamespace>
+    </plugin>
+
+    <!--  Thruster Simulation Interface  -->
 
     <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
       <bodyName>aft_thruster</bodyName>
@@ -34,7 +32,7 @@
 
   </gazebo>
 
-  <!--  Simulation Materials  -->
+  <!--  Gazebo Materials  -->
 
   <gazebo reference="dome">
     <material>Gazebo/Grey</material>

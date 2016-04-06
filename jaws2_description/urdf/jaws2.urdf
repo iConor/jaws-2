@@ -4,186 +4,41 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="jaws2" xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- Port & Stbd Thruster Servo Shafts -->
-  <!-- Aft Thruster Riser -->
-  <!-- Housing -->
-  <!-- Mass: 1.8914 -->
-  <link name="base_link">
+  <!-- Servo Interface -->
+  <transmission name="port">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="port_servo">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="port_servo_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="stbd">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="stbd_servo">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="stbd_servo_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <!--  Dummy Link  -->
+  <link name="base_link"/>
+  <joint name="housing" type="fixed">
+    <parent link="base_link"/>
+    <child link="housing"/>
+  </joint>
+  <!--  Main Housing Inertia  -->
+  <link name="housing">
     <inertial>
-      <mass value="5.7914"/>
+      <mass value="1.8914"/>
       <inertia ixx="0.00921641" ixy="0.0" ixz="0.0" iyy="0.03285281" iyz="0.0" izz="0.03285281"/>
     </inertial>
   </link>
-  <joint name="fwd_gasket_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.1794 0 0"/>
-    <parent link="base_link"/>
-    <child link="fwd_gasket"/>
-  </joint>
-  <link name="fwd_gasket">
-    <inertial>
-      <mass value="0.0165"/>
-      <inertia ixx="0.00004790" ixy="0.0" ixz="0.0" iyy="0.00002397" iyz="0.0" izz="0.00002397"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0032" radius="0.0762"/>
-      </geometry>
-      <material name="Orange"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0032" radius="0.0762"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="dome_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0016 0 0"/>
-    <parent link="fwd_gasket"/>
-    <child link="dome"/>
-  </joint>
-  <joint name="aft_gasket_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.1794 0 0"/>
-    <parent link="base_link"/>
-    <child link="aft_gasket"/>
-  </joint>
-  <link name="aft_gasket">
-    <inertial>
-      <mass value="0.0165"/>
-      <inertia ixx="0.00004790" ixy="0.0" ixz="0.0" iyy="0.00002397" iyz="0.0" izz="0.00002397"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0032" radius="0.0762"/>
-      </geometry>
-      <material name="Orange"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0032" radius="0.0762"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="endcap_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.0116 0 0"/>
-    <parent link="aft_gasket"/>
-    <child link="endcap"/>
-  </joint>
-  <link name="dome">
-    <inertial>
-      <mass value="0.77"/>
-      <inertia ixx="0.003" ixy="0.0" ixz="0.0" iyy="0.003" iyz="0.0" izz="0.003"/>
-    </inertial>
-    <visual>
-      <geometry>
-        <sphere radius="0.0762"/>
-        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl" /> -->
-      </geometry>
-      <material name="Grey"/>
-    </visual>
-    <collision>
-      <geometry>
-        <sphere radius="0.0762"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="endcap">
-    <inertial>
-      <mass value="0.1925"/>
-      <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.003" iyz="0.0" izz="0.003"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.0762"/>
-      </geometry>
-      <material name="Grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.02" radius="0.0762"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="port_servo" type="revolute">
-    <origin rpy="0 -1.57079633 0" xyz="0.142875 0.09763125 0"/>
-    <parent link="base_link"/>
-    <child link="port_servo_shaft"/>
-    <axis xyz="0 1 0"/>
-    <limit effort="1.4994" lower="-2.09439510667" upper="2.09439510667" velocity="1.9666"/>
-  </joint>
-  <link name="port_servo_shaft">
-    <inertial>
-      <mass value="0.02320847"/>
-      <inertia ixx="0.00000444" ixy="0.0" ixz="0.0" iyy="0.00000506" iyz="0.0" izz="0.00000444"/>
-    </inertial>
-    <visual>
-      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0238125" radius="0.01580619"/>
-      </geometry>
-      <material name="DarkGrey"/>
-    </visual>
-    <collision>
-      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0238125" radius="0.01580619"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="stbd_servo" type="revolute">
-    <origin rpy="0 -1.57079633 3.14159266" xyz="0.142875 -0.09763125 0"/>
-    <parent link="base_link"/>
-    <child link="stbd_servo_shaft"/>
-    <axis xyz="0 1 0"/>
-    <limit effort="1.4994" lower="-2.09439510667" upper="2.09439510667" velocity="1.9666"/>
-  </joint>
-  <link name="stbd_servo_shaft">
-    <inertial>
-      <mass value="0.02320847"/>
-      <inertia ixx="0.00000444" ixy="0.0" ixz="0.0" iyy="0.00000506" iyz="0.0" izz="0.00000444"/>
-    </inertial>
-    <visual>
-      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0238125" radius="0.01580619"/>
-      </geometry>
-      <material name="DarkGrey"/>
-    </visual>
-    <collision>
-      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.0238125" radius="0.01580619"/>
-      </geometry>
-    </collision>
-  </link>
-  <link name="aft_thruster_riser">
-    <inertial>
-      <mass value="0.02320847"/>
-      <inertia ixx="0.00000162" ixy="0.0" ixz="0.0" iyy="0.00000162" iyz="0.0" izz="0.00000262"/>
-    </inertial>
-    <visual>
-      <geometry>
-        <box size="0.0195 0.0143 0.0127"/>
-      </geometry>
-      <material name="DarkGrey"/>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.026 0.026 0.0127"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="aft_thruster_riser_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.1397 0 0.0841375"/>
-    <parent link="base_link"/>
-    <child link="aft_thruster_riser"/>
-  </joint>
-  <!-- Main Housing Sections -->
+  <!--  Main Housing Volume  -->
   <joint name="fwd_housing_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.1659 0 0"/>
     <parent link="mid_housing"/>
@@ -191,7 +46,7 @@
   </joint>
   <joint name="mid_housing_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.0127 0 0"/>
-    <parent link="base_link"/>
+    <parent link="housing"/>
     <child link="mid_housing"/>
   </joint>
   <joint name="aft_housing_joint" type="fixed">
@@ -244,23 +99,183 @@
       </geometry>
     </collision>
   </link>
-  <!-- Thruster Mounting Points -->
-  <joint name="aft_thruster_mount_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.1397 0 0.0714375"/>
-    <parent link="base_link"/>
-    <child link="aft_thruster_mount"/>
+  <!--  Gaskets  -->
+  <joint name="fwd_gasket_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.1794 0 0"/>
+    <parent link="housing"/>
+    <child link="fwd_gasket"/>
   </joint>
-  <link name="aft_thruster_mount">
+  <link name="fwd_gasket">
+    <inertial>
+      <mass value="0.0165"/>
+      <inertia ixx="0.00004790" ixy="0.0" ixz="0.0" iyy="0.00002397" iyz="0.0" izz="0.00002397"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0032" radius="0.0762"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0032" radius="0.0762"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="aft_gasket_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.1794 0 0"/>
+    <parent link="housing"/>
+    <child link="aft_gasket"/>
+  </joint>
+  <link name="aft_gasket">
+    <inertial>
+      <mass value="0.0165"/>
+      <inertia ixx="0.00004790" ixy="0.0" ixz="0.0" iyy="0.00002397" iyz="0.0" izz="0.00002397"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0032" radius="0.0762"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0032" radius="0.0762"/>
+      </geometry>
+    </collision>
+  </link>
+  <!--  Dome/Endcap  -->
+  <joint name="dome_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0016 0 0"/>
+    <parent link="fwd_gasket"/>
+    <child link="dome"/>
+  </joint>
+  <joint name="endcap_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.0116 0 0"/>
+    <parent link="aft_gasket"/>
+    <child link="endcap"/>
+  </joint>
+  <link name="dome">
+    <inertial>
+      <mass value="0.77"/>
+      <inertia ixx="0.003" ixy="0.0" ixz="0.0" iyy="0.003" iyz="0.0" izz="0.003"/>
+    </inertial>
     <visual>
       <geometry>
-        <cylinder length="0.0127" radius="0.013"/>
+        <sphere radius="0.0762"/>
+        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl" /> -->
       </geometry>
-      <material name="FlatBlack"/>
+      <material name="Grey"/>
     </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.0762"/>
+      </geometry>
+    </collision>
   </link>
+  <link name="endcap">
+    <inertial>
+      <mass value="0.1925"/>
+      <inertia ixx="0.000" ixy="0.0" ixz="0.0" iyy="0.003" iyz="0.0" izz="0.003"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.0762"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.02" radius="0.0762"/>
+      </geometry>
+    </collision>
+  </link>
+  <!--  Port & Starboard Servos  -->
+  <joint name="port_servo" type="revolute">
+    <origin rpy="0 -1.57079633 0" xyz="0.142875 0.09763125 0"/>
+    <parent link="housing"/>
+    <child link="port_servo_shaft"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1.4994" lower="-2.09439510667" upper="2.09439510667" velocity="1.9666"/>
+  </joint>
+  <link name="port_servo_shaft">
+    <inertial>
+      <mass value="0.02320847"/>
+      <inertia ixx="0.00000444" ixy="0.0" ixz="0.0" iyy="0.00000506" iyz="0.0" izz="0.00000444"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0238125" radius="0.01580619"/>
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+    <collision>
+      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0238125" radius="0.01580619"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="stbd_servo" type="revolute">
+    <origin rpy="0 -1.57079633 3.14159266" xyz="0.142875 -0.09763125 0"/>
+    <parent link="housing"/>
+    <child link="stbd_servo_shaft"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1.4994" lower="-2.09439510667" upper="2.09439510667" velocity="1.9666"/>
+  </joint>
+  <link name="stbd_servo_shaft">
+    <inertial>
+      <mass value="0.02320847"/>
+      <inertia ixx="0.00000444" ixy="0.0" ixz="0.0" iyy="0.00000506" iyz="0.0" izz="0.00000444"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0238125" radius="0.01580619"/>
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+    <collision>
+      <origin rpy="1.57079633 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0238125" radius="0.01580619"/>
+      </geometry>
+    </collision>
+  </link>
+  <!--  Aft Thruster Riser  -->
+  <joint name="aft_thruster_riser_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.1397 0 0.0841375"/>
+    <parent link="housing"/>
+    <child link="aft_thruster_riser"/>
+  </joint>
+  <link name="aft_thruster_riser">
+    <inertial>
+      <mass value="0.02320847"/>
+      <inertia ixx="0.00000162" ixy="0.0" ixz="0.0" iyy="0.00000162" iyz="0.0" izz="0.00000262"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.0195 0.0143 0.0127"/>
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.026 0.026 0.0127"/>
+      </geometry>
+    </collision>
+  </link>
+  <!--  Port & Stbd Shaft Seals  -->
   <joint name="port_thruster_mount_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.142875 0.07381875 0"/>
-    <parent link="base_link"/>
+    <parent link="housing"/>
     <child link="port_thruster_mount"/>
   </joint>
   <link name="port_thruster_mount">
@@ -274,7 +289,7 @@
   </link>
   <joint name="stbd_thruster_mount_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.142875 -0.07381875 0"/>
-    <parent link="base_link"/>
+    <parent link="housing"/>
     <child link="stbd_thruster_mount"/>
   </joint>
   <link name="stbd_thruster_mount">
@@ -286,7 +301,28 @@
       <material name="FlatBlack"/>
     </visual>
   </link>
-  <!-- URDF Materials -->
+  <!--  Aft Thruster Mounting Point  -->
+  <joint name="aft_thruster_mount_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.1397 0 0.0714375"/>
+    <parent link="housing"/>
+    <child link="aft_thruster_mount"/>
+  </joint>
+  <link name="aft_thruster_mount">
+    <visual>
+      <geometry>
+        <cylinder length="0.0127" radius="0.013"/>
+      </geometry>
+      <material name="FlatBlack"/>
+    </visual>
+  </link>
+  <!--  Housing Properties  -->
+  <!-- Gasket Properties  -->
+  <!--  Dome Properties  -->
+  <!--  Endcap Properties  -->
+  <!--  Port & Stbd Servo Propeties  -->
+  <!--  Aft Thruster Riser Properties  -->
+  <!--  Miscellaneous  -->
+  <!--  Rviz Materials  -->
   <material name="FlatBlack">
     <color rgba="0.1 0.1 0.1 1.0"/>
   </material>
@@ -302,17 +338,14 @@
   <material name="Orange">
     <color rgba="1 0.5088 0.0468 1"/>
   </material>
-  <!--  Gazebo  -->
   <gazebo>
     <!--  Buoyancy  -->
     <plugin filename="libBuoyancyPlugin.so" name="BuoyancyPlugin"/>
-    <!--
-          <link name="dome">
-            <center_of_volume>${dome_volume_ctr}</center_of_volume>
-            <volume>${dome_volume}</volume>
-          </link>
--->
-    <!--  Controls  -->
+    <!--  Servo Simulation Interface  -->
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <robotNamespace>/jaws2</robotNamespace>
+    </plugin>
+    <!--  Thruster Simulation Interface  -->
     <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
       <bodyName>aft_thruster</bodyName>
       <topicName>aft_thrust</topicName>
@@ -326,7 +359,7 @@
       <topicName>stbd_thrust</topicName>
     </plugin>
   </gazebo>
-  <!--  Simulation Materials  -->
+  <!--  Gazebo Materials  -->
   <gazebo reference="dome">
     <material>Gazebo/Grey</material>
   </gazebo>
