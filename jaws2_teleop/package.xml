@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <name>jaws2_teleop</name>
+  <version>0.2.0</version>
+  <description>Teleoperation package for Jaws 2.</description>
+
+  <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://go.osu.edu/uwrt</url>
+  <url type="repository">http://github.com/uwrt-osu/jaws-2</url>
+
+  <author email="cary.42@osu.edu">Conor Cary</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>joy</build_depend>
+  <build_depend>roscpp</build_depend>
+
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>joy</run_depend>
+  <run_depend>roscpp</run_depend>
+
+  <export>
+  </export>
+</package>

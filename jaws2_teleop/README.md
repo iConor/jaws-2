@@ -1,4 +1,4 @@
-# Jaws 2 Joy
+# Jaws 2 Teleop
 
 *Contains nodes for interpreting joystick input to Jaws 2.*
 
