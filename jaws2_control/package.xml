@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <name>jaws2_control</name>
+  <version>0.3.0</version>
+  <description>Controls package for Jaws 2.</description>
+
+  <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
+
+  <url type="website">http://go.osu.edu/uwrt</url>
+  <url type="repository">http://github.com/osu-uwrt/jaws-2</url>
+
+  <license>BSD</license>
+
+  <author email="cary.42@osu.edu">Conor Cary</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>ros_control</build_depend>
+  <build_depend>ros_controllers</build_depend>
+
+  <run_depend>ros_control</run_depend>
+  <run_depend>ros_controllers</run_depend>
+
+  <export>
+  </export>
+</package>
