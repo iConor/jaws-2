@@ -1,0 +1,3 @@
+<launch>
+  <node name="thrust_mapper" pkg="jaws2_navigation" type="thrust_mapper" />
+</launch>

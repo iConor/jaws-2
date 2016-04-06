@@ -1,0 +1,6 @@
+<launch>
+  <include file="$(find jaws2_control)/launch/jaws2_control.launch" />
+  <include file="$(find jaws2_description)/launch/jaws2_rviz.launch" />
+  <include file="$(find jaws2_navigation)/launch/jaws2_navigation.launch" />
+  <include file="$(find jaws2_teleop)/launch/jaws2_teleop.launch" />
+</launch>
