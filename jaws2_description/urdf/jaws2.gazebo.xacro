@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!--                                -->
+  <!--  Gazebo Simulation Properties  -->
+  <!--                                -->
+
   <gazebo>
 
     <!--  Buoyancy  -->
 
-    <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so" />
+    <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so"/>
 
     <!--  Servo Simulation Interface  -->
 
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
 
     <!--  Thruster Simulation Interface  -->
 
@@ -30,7 +34,7 @@
 
   </gazebo>
 
-  <!--  Gazebo Materials  -->
+  <!--  Housing Materials  -->
 
   <gazebo reference="dome">
     <material>Gazebo/Grey</material>
@@ -63,7 +67,7 @@
       <material>Gazebo/DarkGrey</material>
     </gazebo>
   </xacro:macro>
-  <xacro:gazebo_materials fa="fwd" ps="port" />
-  <xacro:gazebo_materials fa="aft" ps="stbd" />
+  <xacro:gazebo_materials fa="fwd" ps="port"/>
+  <xacro:gazebo_materials fa="aft" ps="stbd"/>
 
 </robot>

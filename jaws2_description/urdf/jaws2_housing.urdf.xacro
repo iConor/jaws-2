@@ -1,41 +1,54 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <!--  Main Housing Inertia  -->
+<!--                      -->
+<!--  Watertight Housing  -->
+<!--                      -->
+
+  <!--    Required Dummy Link    -->
+
+  <link name="base_link"/>
+
+  <!--    Main Housing Inertia    -->
+
+  <joint name="housing" type="fixed">
+    <parent link="base_link"/>
+    <child link="housing"/>
+  </joint>
 
   <link name="housing">
     <inertial>
-      <mass value="${housing_mass}" />
-      <xacro:insert_block name="housing_inertia" />
+      <mass value="${housing_mass}"/>
+      <xacro:insert_block name="housing_inertia"/>
     </inertial>
   </link>
 
-  <!--  Main Housing Volume  -->
+  <!--    Main Housing Volume    -->
 
   <xacro:macro name="joints" params="prefix d p">
     <joint name="${prefix}_housing_joint" type="fixed">
-      <origin xyz="${d} 0 0" rpy="0 0 0" />
-      <parent link="${p}" />
-      <child link="${prefix}_housing" />
+      <origin xyz="${d} 0 0" rpy="0 0 0"/>
+      <parent link="${p}"/>
+      <child link="${prefix}_housing"/>
     </joint>
   </xacro:macro>
-  <xacro:joints prefix="fwd" d="${(fwd_length+mid_length)/2}" p="mid_housing" />
-  <xacro:joints prefix="mid" d="${(aft_length-fwd_length)/2}" p="housing" />
-  <xacro:joints prefix="aft" d="${-(aft_length+mid_length)/2}" p="mid_housing" />
+  <xacro:joints prefix="fwd" d="${(fwd_length+mid_length)/2}" p="mid_housing"/>
+  <xacro:joints prefix="mid" d="${(aft_length-fwd_length)/2}" p="housing"/>
+  <xacro:joints prefix="aft" d="${-(aft_length+mid_length)/2}" p="mid_housing"/>
 
   <xacro:macro name="links" params="prefix radius length">
     <link name="${prefix}_housing">
       <visual>
-        <xacro:insert_block name="cylinder_fix" />
+        <xacro:insert_block name="pitch_fix"/>
         <geometry>
-          <cylinder radius="${radius}" length="${length}" />
+          <cylinder radius="${radius}" length="${length}"/>
         </geometry>
-        <material name="FlatBlack" />
+        <material name="FlatBlack"/>
       </visual>
       <collision>
-        <xacro:insert_block name="cylinder_fix" />
+        <xacro:insert_block name="pitch_fix"/>
         <geometry>
-          <cylinder radius="${radius}" length="${length}" />
+          <cylinder radius="${radius}" length="${length}"/>
         </geometry>
       </collision>
     </link>
@@ -44,86 +57,88 @@
   <xacro:links prefix="mid" radius="${middle_radius}" length="${mid_length}"/>
   <xacro:links prefix="aft" radius="${housing_radius}" length="${aft_length}"/>
 
-  <!--  Gaskets  -->
+  <!--    Gaskets    -->
 
   <xacro:macro name="gasket" params="prefix reflect">
     <joint name="${prefix}_gasket_joint" type="fixed">
-      <origin xyz="${reflect*gasket_x} 0 0" rpy="0 0 0" />
-      <parent link="housing" />
-      <child link="${prefix}_gasket" />
+      <origin xyz="${reflect*gasket_x} 0 0" rpy="0 0 0"/>
+      <parent link="housing"/>
+      <child link="${prefix}_gasket"/>
     </joint>
     <link name="${prefix}_gasket">
       <inertial>
-        <mass value="${gasket_mass}" />
-        <xacro:insert_block name="gasket_inertia" />
+        <mass value="${gasket_mass}"/>
+        <xacro:insert_block name="gasket_inertia"/>
       </inertial>
       <visual>
-        <xacro:insert_block name="cylinder_fix" />
+        <xacro:insert_block name="pitch_fix"/>
         <geometry>
-          <cylinder radius="${housing_radius}" length="${gasket_length}" />
+          <cylinder radius="${housing_radius}" length="${gasket_length}"/>
         </geometry>
-        <material name="Orange" />
+        <material name="Orange"/>
       </visual>
       <collision>
-        <xacro:insert_block name="cylinder_fix" />
+        <xacro:insert_block name="pitch_fix"/>
         <geometry>
-          <cylinder radius="${housing_radius}" length="${gasket_length}" />
+          <cylinder radius="${housing_radius}" length="${gasket_length}"/>
         </geometry>
       </collision>
     </link>
   </xacro:macro>
-  <xacro:gasket prefix="fwd" reflect="1" />
-  <xacro:gasket prefix="aft" reflect="-1" />
+  <xacro:gasket prefix="fwd" reflect="1"/>
+  <xacro:gasket prefix="aft" reflect="-1"/>
 
-  <!--  Dome/Endcap  -->
+  <!--    Dome    -->
 
   <joint name="dome_joint" type="fixed">
-    <origin xyz="${gasket_length/2} 0 0" rpy="0 0 0" />
-    <parent link="fwd_gasket" />
-    <child link="dome" />
-  </joint>
-
-  <joint name="endcap_joint" type="fixed">
-    <origin xyz="${-(endcap_length+gasket_length)/2} 0 0" rpy="0 0 0" />
-    <parent link="aft_gasket" />
-    <child link="endcap" />
+    <origin xyz="${gasket_length/2} 0 0" rpy="0 0 0"/>
+    <parent link="fwd_gasket"/>
+    <child link="dome"/>
   </joint>
 
   <link name="dome">
     <inertial>
-      <mass value="${dome_mass}" />
-      <xacro:insert_block name="dome_inertia" />
+      <mass value="${dome_mass}"/>
+      <xacro:insert_block name="dome_inertia"/>
     </inertial>
     <visual>
       <geometry>
-        <sphere radius="${housing_radius}" />
-        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl" /> -->
+        <sphere radius="${housing_radius}"/>
+        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl"/> -->
       </geometry>
-      <material name="Grey" />
+      <material name="Grey"/>
     </visual>
     <collision>
       <geometry>
-        <sphere radius="${housing_radius}" />
+        <sphere radius="${housing_radius}"/>
       </geometry>
     </collision>
   </link>
 
+  <!--    Endcap    -->
+
+  <joint name="endcap_joint" type="fixed">
+    <origin xyz="${-(endcap_length+gasket_length)/2} 0 0" rpy="0 0 0"/>
+    <parent link="aft_gasket"/>
+    <child link="endcap"/>
+  </joint>
+
   <link name="endcap">
     <inertial>
-      <mass value="${endcap_mass}" />
-      <xacro:insert_block name="endcap_inertia" />
+      <mass value="${endcap_mass}"/>
+      <xacro:insert_block name="endcap_inertia"/>
     </inertial>
     <visual>
-      <xacro:insert_block name="cylinder_fix" />
+      <xacro:insert_block name="pitch_fix"/>
       <geometry>
-        <cylinder radius="${housing_radius}" length="${endcap_length}" />
+        <cylinder radius="${housing_radius}" length="${endcap_length}"/>
       </geometry>
-      <material name="Grey" />
+      <material name="Grey"/>
     </visual>
     <collision>
-      <xacro:insert_block name="cylinder_fix" />
+      <xacro:insert_block name="pitch_fix"/>
       <geometry>
-        <cylinder radius="${housing_radius}" length="${endcap_length}" />
+        <cylinder radius="${housing_radius}" length="${endcap_length}"/>
       </geometry>
     </collision>
   </link>

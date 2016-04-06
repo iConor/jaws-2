@@ -1,43 +1,37 @@
 <?xml version="1.0"?>
+
+<!--                                  -->
+<!--  Description of the Jaws 2 ROV.  -->
+<!--                                  -->
+<!--  The Underwater Robotics Team    -->
+<!--     @ The Ohio State University  -->
+<!--                                  -->
+
 <robot name="jaws2" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <!-- Servo Interface -->
+<!--                     -->
+<!--  Servo Controllers  -->
+<!--                     -->
 
-  <transmission name="port">
+  <xacro:macro name="servo_control" params="prefix">
+  <transmission name="${prefix}">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="port_servo">
+    <joint name="${prefix}_servo">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
     </joint>
-    <actuator name="port_servo_motor">
+    <actuator name="${prefix}_servo_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+  </xacro:macro>
+  <xacro:servo_control prefix="port"/>
+  <xacro:servo_control prefix="stbd"/>
 
-  <transmission name="stbd">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="stbd_servo">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="stbd_servo_motor">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <!--  Dummy Link  -->
-
-  <link name="base_link" />
-
-  <joint name="housing" type="fixed">
-    <parent link="base_link" />
-    <child link="housing" />
-  </joint>
-
-  <xacro:include filename="jaws2_housing.urdf.xacro" />
-  <xacro:include filename="jaws2_mounting.urdf.xacro" />
-  <xacro:include filename="jaws2_properties.urdf.xacro" />
-  <xacro:include filename="jaws2.gazebo.xacro" />
-  <xacro:include filename="seabotix_thrusters.urdf.xacro" />
+  <xacro:include filename="jaws2_housing.urdf.xacro"/>
+  <xacro:include filename="jaws2_mounting.urdf.xacro"/>
+  <xacro:include filename="jaws2_properties.urdf.xacro"/>
+  <xacro:include filename="jaws2.gazebo.xacro"/>
+  <xacro:include filename="seabotix_thrusters.urdf.xacro"/>
 
 </robot>
