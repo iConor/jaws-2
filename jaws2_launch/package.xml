@@ -1,19 +1,20 @@
 <?xml version="1.0"?>
 <package>
-  <name>jaws2_imu</name>
+  <name>jaws2_launch</name>
   <version>0.2.0</version>
-  <description>3DM-GX4-25 launch files for Jaws 2.</description>
+  <description>Launch files for Jaws 2.</description>
 
   <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
 
   <license>BSD</license>
 
   <url type="website">http://go.osu.edu/uwrt</url>
-  <url type="repository">http://github.com/uwrt-osu/jaws-msgs</url>
+  <url type="repository">http://github.com/uwrt-osu/jaws-2</url>
 
   <author email="cary.42@osu.edu">Conor Cary</author>
 
   <buildtool_depend>catkin</buildtool_depend>
+  
   <run_depend>imu_3dm_gx4</run_depend>
 
   <export>
