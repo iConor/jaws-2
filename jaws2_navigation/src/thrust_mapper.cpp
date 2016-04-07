@@ -1,6 +1,6 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Accel.h"
-#include "sensor_msgs/JointState.h"
+#include "std_msgs/Float64.h"
 #include "jaws2_msgs/ThrustStamped.h"
 
 #include <math.h>
@@ -89,9 +89,11 @@ class Solver
   private:
     ros::NodeHandle nh;
     ros::Subscriber accels;
-    ros::Publisher joints;
+    ros::Publisher port_servo;
+    ros::Publisher stbd_servo;
     ros::Publisher forces;
-    sensor_msgs::JointState angles;
+    std_msgs::Float64 port_angle;
+    std_msgs::Float64 stbd_angle;
     jaws2_msgs::ThrustStamped thrust;
     double f_a;
     double f_s;
@@ -118,13 +120,9 @@ int main(int argc, char **argv)
 Solver::Solver(char** argv)
 {
   accels = nh.subscribe<geometry_msgs::Accel>("accel_error", 1, &Solver::callback, this);
-  joints = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
+  port_servo = nh.advertise<std_msgs::Float64>("port_servo_position_controller/command", 1);
+  stbd_servo = nh.advertise<std_msgs::Float64>("stbd_servo_position_controller/command", 1);
   forces = nh.advertise<jaws2_msgs::ThrustStamped>("solver/thrust", 1);
-
-  angles.name.resize(2);
-  angles.name[0] = "port_servo";
-  angles.name[1] = "stbd_servo";
-  angles.position.resize(2);
 
   google::InitGoogleLogging(argv[0]);
 
@@ -207,13 +205,12 @@ void Solver::callback(const geometry_msgs::Accel::ConstPtr& a)
             << std::endl;
 #endif
 
+  port_angle.data = t_p;
+  stbd_angle.data = t_s;
+  port_servo.publish(port_angle);
+  stbd_servo.publish(stbd_angle);
+
   ros::Time time = ros::Time::now();
-  angles.header.stamp = time;
-  angles.position[0] = t_p;
-  angles.position[1] = t_s;
-  joints.publish(angles);
-
-
   thrust.header.stamp = time;
   thrust.thrust.aft = f_a;
   thrust.thrust.stbd = f_s;
