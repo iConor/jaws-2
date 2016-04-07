@@ -39,7 +39,7 @@ void Sim::sim_callback(const jaws2_msgs::ThrustStamped::ConstPtr& force)
 {
   wrench_p.force.x = force->thrust.port;
   wrench_s.force.x = force->thrust.stbd;
-  wrench_a.force.z = force->thrust.aft;
+  wrench_a.force.x = force->thrust.aft;
 
   port_wrench.publish(wrench_p);
   stbd_wrench.publish(wrench_s);
