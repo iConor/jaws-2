@@ -11,7 +11,7 @@
 
   <!--    Main Housing Inertia    -->
 
-  <joint name="housing" type="fixed">
+  <joint name="housing_joint" type="fixed">
     <parent link="base_link"/>
     <child link="housing"/>
   </joint>

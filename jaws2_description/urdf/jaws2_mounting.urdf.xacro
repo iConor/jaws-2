@@ -1,6 +1,48 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+<!--                    -->
+<!--  Ballast Mounting  -->
+<!--                    -->
+
+  <xacro:property name="total" value="4.75"/>
+  <xacro:property name="mass" value="${total/2}"/>
+  <xacro:property name="length" value="${mass/2700/2/(M_PI*body_radius*body_radius)}"/>
+  <xacro:property name="inertia">
+    <inertia ixx="${mass*body_radius^2/2}" ixy="0.0" ixz="0.0"
+             iyy="${mass/12*(3*body_radius*body_radius+length*length)}" iyz="0.0"
+             izz="${mass/12*(3*body_radius*body_radius+length*length)}"/>
+  </xacro:property>
+
+  <xacro:macro name="ballast" params="prefix reflect">
+    <joint name="${prefix}_ballast_joint" type="fixed">
+      <origin xyz="${1.5*body_radius} ${reflect*(housing_radius-body_radius)} -${housing_radius+body_radius}" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="${prefix}_ballast"/>
+    </joint>
+    <link name="${prefix}_ballast">
+      <inertial>
+        <mass value="${mass}"/>
+        <xacro:insert_block name="inertia"/>
+      </inertial>
+      <visual>
+        <xacro:insert_block name="pitch_fix"/>
+        <geometry>
+            <cylinder radius="${body_radius}" length="${length}"/>
+        </geometry>
+        <material name="Grey"/>
+      </visual>
+      <collision>
+        <xacro:insert_block name="pitch_fix"/>
+        <geometry>
+            <cylinder radius="${body_radius}" length="${length}"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+  <xacro:ballast prefix="port" reflect="1"/>
+  <xacro:ballast prefix="stbd" reflect="-1"/>
+
 <!--                     -->
 <!--  Thruster Mounting  -->
 <!--                     -->

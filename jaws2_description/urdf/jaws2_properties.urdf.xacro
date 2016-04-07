@@ -10,13 +10,6 @@
     <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
   </xacro:property>
 
-  <xacro:property name="servo_axis" value="0 1 0"/>
-  <xacro:property name="zero" value="${-M_PI/2}"/>
-  <xacro:property name="vel" value="1.96666666"/>
-  <xacro:property name="tau" value="1.49940000"/>
-  <xacro:property name="max" value="${5*M_PI/6}"/>
-  <xacro:property name="min" value="${-5*M_PI/6}"/>
-
   <xacro:property name="housing_radius" value="0.0762"/>
   <xacro:property name="middle_radius" value="0.06985"/>
   <xacro:property name="fwd_length" value="0.0492"/>

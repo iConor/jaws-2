@@ -66,6 +66,9 @@
     <gazebo reference="${ps}_servo_shaft">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
+    <gazebo reference="${ps}_ballast">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
   </xacro:macro>
   <xacro:gazebo_materials fa="fwd" ps="port"/>
   <xacro:gazebo_materials fa="aft" ps="stbd"/>

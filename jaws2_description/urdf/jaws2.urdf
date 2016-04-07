@@ -39,7 +39,7 @@
   <!--    Required Dummy Link    -->
   <link name="base_link"/>
   <!--    Main Housing Inertia    -->
-  <joint name="housing" type="fixed">
+  <joint name="housing_joint" type="fixed">
     <parent link="base_link"/>
     <child link="housing"/>
   </joint>
@@ -205,6 +205,63 @@
       <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.02" radius="0.0762"/>
+      </geometry>
+    </collision>
+  </link>
+  <!--                    -->
+  <!--  Ballast Mounting  -->
+  <!--                    -->
+  <gazebo reference="port_ballast">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <joint name="port_ballast_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0333375 0.053975 -0.098425"/>
+    <parent link="base_link"/>
+    <child link="port_ballast"/>
+  </joint>
+  <link name="port_ballast">
+    <inertial>
+      <mass value="2.375"/>
+      <inertia ixx="0.052784375" ixy="0.0" ixz="0.0" iyy="0.0161917502092" iyz="0.0" izz="0.0161917502092"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.283423881405" radius="0.022225"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.283423881405" radius="0.022225"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="stbd_ballast">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <joint name="stbd_ballast_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0333375 -0.053975 -0.098425"/>
+    <parent link="base_link"/>
+    <child link="stbd_ballast"/>
+  </joint>
+  <link name="stbd_ballast">
+    <inertial>
+      <mass value="2.375"/>
+      <inertia ixx="0.052784375" ixy="0.0" ixz="0.0" iyy="0.0161917502092" iyz="0.0" izz="0.0161917502092"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.283423881405" radius="0.022225"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57079633 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.283423881405" radius="0.022225"/>
       </geometry>
     </collision>
   </link>
