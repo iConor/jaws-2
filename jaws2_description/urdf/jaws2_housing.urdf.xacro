@@ -103,8 +103,7 @@
     </inertial>
     <visual>
       <geometry>
-        <sphere radius="${housing_radius}"/>
-        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl"/> -->
+        <mesh filename="package://jaws2_description/meshes/dome.stl"/>
       </geometry>
       <material name="Grey"/>
     </visual>

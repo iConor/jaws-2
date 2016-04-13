@@ -172,8 +172,7 @@
     </inertial>
     <visual>
       <geometry>
-        <sphere radius="0.0762"/>
-        <!-- <mesh filename="package://jaws2_description/meshes/dome.stl"/> -->
+        <mesh filename="package://jaws2_description/meshes/dome.stl"/>
       </geometry>
       <material name="Grey"/>
     </visual>
@@ -211,9 +210,6 @@
   <!--                    -->
   <!--  Ballast Mounting  -->
   <!--                    -->
-  <gazebo reference="port_ballast">
-    <material>Gazebo/Grey</material>
-  </gazebo>
   <joint name="port_ballast_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.0333375 0.053975 -0.098425"/>
     <parent link="base_link"/>
@@ -238,9 +234,6 @@
       </geometry>
     </collision>
   </link>
-  <gazebo reference="stbd_ballast">
-    <material>Gazebo/Grey</material>
-  </gazebo>
   <joint name="stbd_ballast_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.0333375 -0.053975 -0.098425"/>
     <parent link="base_link"/>
@@ -453,6 +446,9 @@
   <gazebo reference="port_servo_shaft">
     <material>Gazebo/DarkGrey</material>
   </gazebo>
+  <gazebo reference="port_ballast">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
   <gazebo reference="aft_housing">
     <material>Gazebo/FlatBlack</material>
   </gazebo>
@@ -463,6 +459,9 @@
     <material>Gazebo/FlatBlack</material>
   </gazebo>
   <gazebo reference="stbd_servo_shaft">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="stbd_ballast">
     <material>Gazebo/DarkGrey</material>
   </gazebo>
   <!--                      -->
