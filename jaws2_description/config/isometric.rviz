@@ -56,32 +56,37 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        aft_base:
+        aft_gasket:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        aft_body:
+        aft_housing:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        aft_dome:
+        aft_thruster:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        aft_duct:
+        aft_thruster_mount:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_dome:
+        aft_thruster_nose_cone:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base_endcap:
+        aft_thruster_nozzle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        aft_thruster_riser:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -90,43 +95,91 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        port_base:
+        dome:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        port_body:
+        endcap:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        port_dome:
+        fwd_gasket:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        port_duct:
+        fwd_housing:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        stbd_base:
+        housing:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mid_housing:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        stbd_body:
+        port_ballast:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        stbd_dome:
+        port_servo_shaft:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        stbd_duct:
+        port_thruster:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        port_thruster_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        port_thruster_nose_cone:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        port_thruster_nozzle:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        stbd_ballast:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        stbd_servo_shaft:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        stbd_thruster:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        stbd_thruster_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        stbd_thruster_nose_cone:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        stbd_thruster_nozzle:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -140,7 +193,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: odom
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -194,5 +247,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 2243
-  Y: 72
+  X: 2233
+  Y: 62

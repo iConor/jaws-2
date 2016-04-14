@@ -1,3 +1,6 @@
+*.~
+*.save
+
 # BUILD PRODUCTS
 *.d
 *.o

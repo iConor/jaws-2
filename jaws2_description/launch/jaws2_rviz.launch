@@ -1,6 +1,4 @@
 <launch>
-  <arg name="transform" value="0 0 0 0 0 0 odom base_link 100"/>
-  <node name="static_transform_publisher" pkg="tf" type="static_transform_publisher" args="$(arg transform)"/>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" args="_use_gui:=true"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
   <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find jaws2_description)/config/isometric.rviz"/>
