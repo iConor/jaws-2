@@ -1,7 +1,6 @@
 <launch>
   <arg name="urdf" value="-file $(find jaws2_description)/urdf/jaws2.urdf -urdf -x 0 -y 0 -z 10 -model jaws2"/>
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="$(arg urdf)"/>
-  <node name="thrust_sim" pkg="jaws2_gazebo" type="thrust_sim"/>
   <include file="$(find jaws2_description)/launch/jaws2_description.launch"/>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="paused" value="true"/>

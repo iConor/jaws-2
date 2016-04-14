@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Accel.h"
+#include "geometry_msgs/Wrench.h"
 #include "std_msgs/Float64.h"
-#include "jaws2_msgs/ThrustStamped.h"
 
 #include <math.h>
 #include <vector>
@@ -91,10 +91,14 @@ class Solver
     ros::Subscriber accels;
     ros::Publisher port_servo;
     ros::Publisher stbd_servo;
-    ros::Publisher forces;
+    ros::Publisher port_thruster;
+    ros::Publisher stbd_thruster;
+    ros::Publisher aft_thruster;
     std_msgs::Float64 port_angle;
     std_msgs::Float64 stbd_angle;
-    jaws2_msgs::ThrustStamped thrust;
+    geometry_msgs::Wrench port_thrust;
+    geometry_msgs::Wrench stbd_thrust;
+    geometry_msgs::Wrench aft_thrust;
     double f_a;
     double f_s;
     double f_p;
@@ -122,7 +126,9 @@ Solver::Solver(char** argv)
   accels = nh.subscribe<geometry_msgs::Accel>("accel_error", 1, &Solver::callback, this);
   port_servo = nh.advertise<std_msgs::Float64>("port_servo_position_controller/command", 1);
   stbd_servo = nh.advertise<std_msgs::Float64>("stbd_servo_position_controller/command", 1);
-  forces = nh.advertise<jaws2_msgs::ThrustStamped>("solver/thrust", 1);
+  port_thruster = nh.advertise<geometry_msgs::Wrench>("port_thruster_force_controller/command", 1);
+  stbd_thruster = nh.advertise<geometry_msgs::Wrench>("stbd_thruster_force_controller/command", 1);
+  aft_thruster = nh.advertise<geometry_msgs::Wrench>("aft_thruster_force_controller/command", 1);
 
   google::InitGoogleLogging(argv[0]);
 
@@ -207,15 +213,16 @@ void Solver::callback(const geometry_msgs::Accel::ConstPtr& a)
 
   port_angle.data = t_p;
   stbd_angle.data = t_s;
+  port_thrust.force.x = f_p;
+  stbd_thrust.force.x = f_s;
+  aft_thrust.force.x = f_a;
+
   port_servo.publish(port_angle);
   stbd_servo.publish(stbd_angle);
+  port_thruster.publish(port_thrust);
+  stbd_thruster.publish(stbd_thrust);
+  port_thruster.publish(port_thrust);
 
-  ros::Time time = ros::Time::now();
-  thrust.header.stamp = time;
-  thrust.thrust.aft = f_a;
-  thrust.thrust.stbd = f_s;
-  thrust.thrust.port = f_p;
-  forces.publish(thrust);
 }
 
 void Solver::loop()

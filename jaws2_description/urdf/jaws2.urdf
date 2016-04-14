@@ -407,15 +407,15 @@
     <!--  Thruster Simulation Interface  -->
     <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
       <bodyName>aft_thruster</bodyName>
-      <topicName>aft_thrust</topicName>
+      <topicName>aft_thruster_force_controller/command</topicName>
     </plugin>
     <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
       <bodyName>port_thruster</bodyName>
-      <topicName>port_thrust</topicName>
+      <topicName>port_thruster_force_controller/command</topicName>
     </plugin>
     <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
       <bodyName>stbd_thruster</bodyName>
-      <topicName>stbd_thrust</topicName>
+      <topicName>stbd_thruster_force_controller/command</topicName>
     </plugin>
   </gazebo>
   <!--  Housing Materials  -->
