@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# ArbotiX
+cd -p ~/sketchbook
+git init
+git remote add origin https://github.com/iConor/arbotix.git
+git fetch
+git checkout -t origin/master
+
+# rosserial_arduino:
+cd libraries
+rm -rf ros_lib
+rosrun rosserial_arduino make_libraries.py .
