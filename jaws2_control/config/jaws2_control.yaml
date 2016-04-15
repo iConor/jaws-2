@@ -2,10 +2,10 @@ joint_state_controller:
   type: joint_state_controller/JointStateController
   publish_rate: 30
 port_servo_position_controller:
-  type: effort_controllers/JointPositionController
+  type: position_controllers/JointPositionController
   joint: port_servo
   pid: {p: 100.0, i: 0.01, d: 10.0}
 stbd_servo_position_controller:
-  type: effort_controllers/JointPositionController
+  type: position_controllers/JointPositionController
   joint: stbd_servo
   pid: {p: 100.0, i: 0.01, d: 10.0}
