@@ -15,13 +15,16 @@ void callback(const sensor_msgs::JointState::ConstPtr& angle, const jaws2_msgs::
   const int SIZE = 11;
   unsigned char packet[SIZE];
 
-  packet[0]  = '#';
+  int ang0 = 180 - int(angle->position[0] * 180 / M_PI);
+  int ang1 = 180 + int(angle->position[1] * 180 / M_PI);
 
-  packet[1]  = int(angle->position[0]) >> 8;
-  packet[2]  = int(angle->position[0]);
+  packet[0]  = '-';
 
-  packet[3]  = int(angle->position[1]) >> 8;
-  packet[4]  = int(angle->position[1]);
+  packet[1]  = int(ang0) >> 8;
+  packet[2]  = int(ang0);
+
+  packet[3]  = int(ang1) >> 8;
+  packet[4]  = int(ang1);
 
   packet[5]  = force->pwm.aft >> 8;
   packet[6]  = force->pwm.aft;

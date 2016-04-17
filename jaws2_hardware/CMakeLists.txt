@@ -16,11 +16,15 @@ include_directories(
 
 add_executable(serial_port src/serial_port.cpp)
 add_executable(thrust_cal src/thrust_cal.cpp)
+add_executable(airplane_cal src/airplane_cal.cpp)
 
 
 target_link_libraries(serial_port
   ${catkin_LIBRARIES}
 )
 target_link_libraries(thrust_cal
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(airplane_cal
   ${catkin_LIBRARIES}
 )

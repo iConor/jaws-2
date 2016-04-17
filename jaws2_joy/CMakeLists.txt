@@ -19,7 +19,11 @@ include_directories(
 )
 
 add_executable(accel_error src/accel_error.cpp)
+add_executable(airplane src/airplane.cpp)
 
 target_link_libraries(accel_error
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(airplane
   ${catkin_LIBRARIES}
 )

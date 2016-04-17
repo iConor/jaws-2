@@ -1,0 +1,6 @@
+<launch>
+<node name="airplane" pkg="jaws2_joy" type="airplane"/>
+<node name="airplane_mapper" pkg="jaws2_solver" type="airplane_mapper"/>
+<node name="airplane_cal" pkg="jaws2_hardware" type="airplane_cal"/>
+<node name="serial_port" pkg="jaws2_hardware" type="serial_port"/>
+</launch>
