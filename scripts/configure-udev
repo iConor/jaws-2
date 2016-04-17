@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# ---------------------------------------- #
+#  Copy udev rules into /etc/udev/rules.d  #
+# ---------------------------------------- #
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cp $DIR/10-imu_3dm_gx4.rules /etc/udev/rules.d
