@@ -8,10 +8,16 @@ ros::NodeHandle nh;
 std_msgs::Float64 state;
 std_msgs::Float64 cmd;
 
+int port_servo_cmd = 150;
+int stbd_servo_cmd = 150;
+int state[] = {150, 150};
+
 void callback(const std_msgs::Float64 cmd);
 {
-  SetPosition(PORT_SERVO, cmd[0] * ANGLE_CONVERSION);
-  SetPosition(STBD_SERVO, cmd[1] * ANGLE_CONVERSION);
+  port_servo_cmd = cmd[0];
+  stbd_servo_cmd = cmd[1];
+  SetPosition(PORT_SERVO, port_servo_cmd * ANGLE_CONVERSION);
+  SetPosition(STBD_SERVO, stbd_servo_cmd * ANGLE_CONVERSION);
   // set -- port, stbd, aft -- thrusters
 }
 
@@ -54,19 +60,22 @@ void setup()
 void loop()
 {
   nh.spinOnce();
-  state = 0;
-  if(state != 0)
+  port_servo_pos = GetPosition(PORT_SERVO);
+  stbd_servo_pos = GetPosition(STBD_SERVO);
+  if(port_servo_pos == port_servo_cmd && stbd_servo_pos == stbd_servo_cmd)
   {
     port_thruster.writeMicroseconds(port_thrust);
     stbd_thruster.writeMicroseconds(stbd_thrust);
     aft_thruster.writeMicroseconds(aft_thrust);
   }
-  else // state == 0;
+  else // Thrusters not in position yet:
   {
     port_thruster.writeMicroseconds(ZERO_THRUST);
     stbd_thruster.writeMicroseconds(ZERO_THRUST);
     aft_thruster.writeMicroseconds(ZERO_THRUST);
   }
+  state[0] = port_servo_pos;
+  state[1] = stbd_servo_pos;
   state_pub.publish(&state);
   delay(33);
 }
