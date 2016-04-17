@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ArbotiX
-cd -p ~/sketchbook
+cd ~/sketchbook
 git init
 git remote add origin https://github.com/iConor/arbotix.git
 git fetch
