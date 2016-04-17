@@ -4,13 +4,18 @@
 #include "ax12.h"
 #include <Servo.h>
 
+#define GetSpeed(id) (ax12GetRegister(id, AX_PRESENT_SPEED_L, 2))
+#define GetLoad(id) (ax12GetRegister(id, AX_PRESENT_LOAD_L, 2))
+
 ros::NodeHandle nh;
 std_msgs::Float64 state;
 std_msgs::Float64 cmd;
 
 int port_servo_cmd = 150;
 int stbd_servo_cmd = 150;
-int state[] = {150, 150};
+int port_servo_pos = 150;
+int stbd_servo_pos = 150;
+int state[] = {150, 150, 0, 0, 0, 0};
 
 void callback(const std_msgs::Float64 cmd);
 {
@@ -76,6 +81,10 @@ void loop()
   }
   state[0] = port_servo_pos;
   state[1] = stbd_servo_pos;
+  state[2] = GetSpeed(PORT_SERVO);
+  state[2] = GetSpeed(STBD_SERVO);
+  state[4] = GetLoad(PORT_SERVO);
+  state[5] = GetLoad(STBD_SERVO);
   state_pub.publish(&state);
   delay(33);
 }
