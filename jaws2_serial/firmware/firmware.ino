@@ -1,5 +1,5 @@
 #include <ros.h>
-#include <std_msgs/Float64.h>
+#include <std_msgs/Int32MultiArray.h>
 
 #include "ax12.h"
 #include <Servo.h>
@@ -8,32 +8,38 @@
 #define GetLoad(id) (ax12GetRegister(id, AX_PRESENT_LOAD_L, 2))
 
 ros::NodeHandle nh;
-std_msgs::Float64 state;
-std_msgs::Float64 cmd;
+std_msgs::Int32MultiArray state;
+std_msgs::Int32MultiArray cmd;
 
 int port_servo_cmd = 150;
 int stbd_servo_cmd = 150;
 int port_servo_pos = 150;
 int stbd_servo_pos = 150;
-int state[] = {150, 150, 0, 0, 0, 0};
 
-void callback(const std_msgs::Float64 cmd);
+const int PORT_SERVO = 18;
+const int STBD_SERVO = 15;
+
+const float ANGLE_CONVERSION = 4096.0/360.0;
+
+void callback(const std_msgs::Int32MultiArray& cmd)
 {
-  port_servo_cmd = cmd[0];
-  stbd_servo_cmd = cmd[1];
+  port_servo_cmd = cmd.data[0];
+  stbd_servo_cmd = cmd.data[1];
   SetPosition(PORT_SERVO, port_servo_cmd * ANGLE_CONVERSION);
   SetPosition(STBD_SERVO, stbd_servo_cmd * ANGLE_CONVERSION);
   // set -- port, stbd, aft -- thrusters
 }
 
 ros::Publisher state_pub("state", &state);
-ros::Subscriber<std_msgs::Float64> cmd_sub("command", &callback);
+ros::Subscriber<std_msgs::Int32MultiArray> cmd_sub("command", &callback);
 
-const int PORT_SERVO = 18;
-const int STBD_SERVO = 15;
 const int AFT_THRUSTER = 13;
 const int PORT_THRUSTER = 12;
 const int STBD_THRUSTER = 14;
+
+int port_thrust;
+int stbd_thrust;
+int aft_thrust;
 
 const int MIN_THRUST = 1000;
 const int ZERO_THRUST = 1500;
@@ -43,12 +49,14 @@ Servo aft_thruster;
 Servo port_thruster;
 Servo stbd_thruster;
 
-const float ANGLE_CONVERSION = 4096.0/360.0;
-
 void setup()
 {
   nh.initNode();
   nh.advertise(state_pub);
+  state.layout.data_offset = 0;
+  state.layout.dim[0].label = "command";
+  state.layout.dim[0].size = 2;
+  state.layout.dim[0].stride = 2;
 
   ax12Init(1000000);
   aft_thruster.attach(AFT_THRUSTER);
@@ -79,12 +87,12 @@ void loop()
     stbd_thruster.writeMicroseconds(ZERO_THRUST);
     aft_thruster.writeMicroseconds(ZERO_THRUST);
   }
-  state[0] = port_servo_pos;
-  state[1] = stbd_servo_pos;
-  state[2] = GetSpeed(PORT_SERVO);
-  state[2] = GetSpeed(STBD_SERVO);
-  state[4] = GetLoad(PORT_SERVO);
-  state[5] = GetLoad(STBD_SERVO);
+  state.data[0] = port_servo_pos;
+  state.data[1] = stbd_servo_pos;
+  state.data[2] = GetSpeed(PORT_SERVO);
+  state.data[3] = GetSpeed(STBD_SERVO);
+  state.data[4] = GetLoad(PORT_SERVO);
+  state.data[5] = GetLoad(STBD_SERVO);
   state_pub.publish(&state);
   delay(33);
 }
