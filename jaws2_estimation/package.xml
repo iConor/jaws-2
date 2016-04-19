@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <name>jaws2_estimation</name>
+  <version>0.3.0</version>
+  <description>State estimation for OSU's Jaws 2 ROV.</description>
+
+  <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://go.osu.edu/uwrt</url>
+  <url type="repository">http://github.com/osu-uwrt/jaws-2</url>
+
+  <author email="cary.42@osu.edu">Conor Cary</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>imu_3dm_gx4</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>imu_3dm_gx4</run_depend>
+
+  <export>
+  </export>
+</package>
