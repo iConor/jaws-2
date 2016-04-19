@@ -1,0 +1,4 @@
+<launch>
+  <node name="imu_transform" pkg="jaws2_navigation" type="imu_transform"/>
+  <include file="$(find jaws2_launch)/launch/jaws2_imu.launch"/>
+</launch>

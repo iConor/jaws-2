@@ -1,0 +1,4 @@
+<launch>
+  <node name="orientation" pkg="jaws2_navigation" type="orientation"/>
+  <include file="$(find jaws2_launch)/launch/jaws2_imu.launch"/>
+</launch>
