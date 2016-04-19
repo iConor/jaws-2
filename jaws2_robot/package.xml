@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <name>jaws2_robot</name>
+  <version>0.3.0</version>
+  <description>Metapackage for OSU's Jaws 2 ROV.</description>
+
+  <maintainer email="cary.42@osu.edu">Conor Cary</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://go.osu.edu/uwrt</url>
+  <url type="repository">http://github.com/osu-uwrt/jaws-2</url>
+
+  <author email="cary.42@osu.edu">Conor Cary</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>jaws2_control</run_depend>
+  <run_depend>jaws2_description</run_depend>
+  <run_depend>jaws2_estimation</run_depend>
+  <run_depend>jaws2_gazebo</run_depend>
+  <run_depend>jaws2_hardware</run_depend>
+  <run_depend>jaws2_launch</run_depend>
+  <run_depend>jaws2_msgs</run_depend>
+  <run_depend>jaws2_navigation</run_depend>
+  <run_depend>jaws2_teleop</run_depend>
+  <run_depend>jaws2_vision</run_depend>
+
+  <export>
+    <metapackage />
+  </export>
+</package>
