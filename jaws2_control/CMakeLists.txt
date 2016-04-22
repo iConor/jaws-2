@@ -7,6 +7,8 @@ catkin_package()
 
 include_directories(${catkin_INCLUDE_DIRS})
 
-
 add_executable(attitude_controller src/attitude_controller.cpp)
 target_link_libraries(attitude_controller ${catkin_LIBRARIES})
+
+add_executable(thruster_controller src/thruster_controller.cpp)
+target_link_libraries(thruster_controller ${catkin_LIBRARIES} ${CERES_LIBRARIES})
