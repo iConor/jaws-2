@@ -1,6 +1,5 @@
 <launch>
   <include file="$(find jaws2_control)/launch/jaws2_control.launch" />
   <include file="$(find jaws2_gazebo)/launch/jaws2_gazebo.launch" />
-  <include file="$(find jaws2_navigation)/launch/jaws2_navigation.launch" />
   <include file="$(find jaws2_teleop)/launch/jaws2_teleop.launch" />
 </launch>

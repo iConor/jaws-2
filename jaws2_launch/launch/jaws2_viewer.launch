@@ -2,7 +2,6 @@
   <!-- Disclaimer: Controller Spawner won't find its expected interface yet. -->
   <include file="$(find jaws2_control)/launch/jaws2_control.launch" />
   <include file="$(find jaws2_description)/launch/jaws2_description.launch" />
-  <include file="$(find jaws2_navigation)/launch/jaws2_navigation.launch" />
   <include file="$(find jaws2_teleop)/launch/jaws2_teleop.launch" />
   <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find jaws2_launch)/config/isometric.rviz"/>
 </launch>
