@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8.3)
 project(jaws2_navigation)
 
 find_package(catkin REQUIRED COMPONENTS roscpp jaws2_msgs tf)
-find_package(Ceres REQUIRED)
 
 catkin_package()
 
