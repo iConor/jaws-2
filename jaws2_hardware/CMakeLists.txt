@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(jaws2_hardware)
 
-find_package(catkin REQUIRED COMPONENTS roscpp hardware_interface controller_manager sensor_msgs jaws2_msgs message_filters )
+find_package(catkin REQUIRED COMPONENTS roscpp hardware_interface controller_manager sensor_msgs jaws2_msgs message_filters)
 
 catkin_package()
 

@@ -3,6 +3,9 @@
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
 #include <controller_manager/controller_manager.h>
+#include <jaws2_msgs/ServoCommand.h>
+#include <jaws2_msgs/ServoState.h>
+#include <jaws2_msgs/Pwm.h>
 
 class Jaws2 : public hardware_interface::RobotHW
 {
@@ -14,6 +17,7 @@ class Jaws2 : public hardware_interface::RobotHW
     double vel[2];
     double eff[2];
     ros::Time previous_time;
+    jaws2_msgs::ServoCommand command;
 
   public:
     Jaws2();
@@ -28,9 +32,13 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "hardware_interface");
   Jaws2 jaws2;
 
+  NodeHandle nh;
+  ros::Publisher servos = nh.advertise<jaws2_msgs::ServoCommand>("servo/command", 1);
+  ros::Subscriber state = nh.subscribe<jaws2_msgs::ServoState>("servo/state", 1, &Jaws::callback, jaws2);
+
   controller_manager::ControllerManager ctrl_mngr(&jaws2/*, const ros::NodeHandle* nh*/);
 
-  ros::Rate rate(100);
+  ros::Rate rate(30);
   while(ros::ok())
   {
     // The control manager needs to be moved into
@@ -64,18 +72,23 @@ Jaws2::Jaws2()
   registerInterface(&jnt_pos_interface);
 }
 
-void Jaws2::read()
+void Jaws2::read(const jaws2_msgs::ServoState::ConstPtr& state)
 {
   // serial_read
-  // double pos[2];
-  // double vel[2];
-  // double eff[2];
+  pos[0] = state->port_pos;
+  pos[1] = state->stbd_pos;
+  vel[0] = state->port_vel;
+  vel[1] = state->stbd_vel;
+  eff[0] = state->port_eff;
+  eff[1] = state->stbd_eff;
 }
 
 void Jaws2::write()
 {
   // serial_write
-  // double cmd[2];
+  command.port_cmd = cmd[0];
+  command.stbd_cmd = cmd[1];
+  servos.publish(command);
 }
 
 const ros::Time Jaws2::get_time()
