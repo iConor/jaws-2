@@ -1,98 +1,115 @@
+// ROS
 #include <ros.h>
-#include <std_msgs/Int32MultiArray.h>
-
-#include "ax12.h"
+#include <jaws2_msgs/ServoCommand.h>
+#include <jaws2_msgs/ServoState.h>
+// Dynamixel
+#include <ax12.h>
+// PWM
 #include <Servo.h>
 
+// Servo Velocity/Effort Functions
 #define GetSpeed(id) (ax12GetRegister(id, AX_PRESENT_SPEED_L, 2))
 #define GetLoad(id) (ax12GetRegister(id, AX_PRESENT_LOAD_L, 2))
 
-ros::NodeHandle nh;
-std_msgs::Int32MultiArray state;
-std_msgs::Int32MultiArray cmd;
 
-int port_servo_cmd = 150;
-int stbd_servo_cmd = 150;
-int port_servo_pos = 150;
-int stbd_servo_pos = 150;
-
+// Dynamixel ID's
 const int PORT_SERVO = 18;
 const int STBD_SERVO = 15;
 
-const float ANGLE_CONVERSION = 4096.0/360.0;
-
-void callback(const std_msgs::Int32MultiArray& cmd)
-{
-  port_servo_cmd = cmd.data[0];
-  stbd_servo_cmd = cmd.data[1];
-  SetPosition(PORT_SERVO, port_servo_cmd * ANGLE_CONVERSION);
-  SetPosition(STBD_SERVO, stbd_servo_cmd * ANGLE_CONVERSION);
-  // set -- port, stbd, aft -- thrusters
-}
-
-ros::Publisher state_pub("state", &state);
-ros::Subscriber<std_msgs::Int32MultiArray> cmd_sub("command", &callback);
-
-const int AFT_THRUSTER = 13;
-const int PORT_THRUSTER = 12;
-const int STBD_THRUSTER = 14;
-
-int port_thrust;
-int stbd_thrust;
-int aft_thrust;
-
+// PWM Limits
 const int MIN_THRUST = 1000;
 const int ZERO_THRUST = 1500;
 const int MAX_THRUST = 2000;
 
+// PWM Pins
+const int AFT_THRUSTER = 13;
+const int PORT_THRUSTER = 12;
+const int STBD_THRUSTER = 14;
+
+// Dynamixel Encoder/Angle
+const float ANGLE_CONVERSION = 4096.0/360.0;
+
+// Startup Servo Angles
+float port_servo_cmd = 150.0 * ANGLE_CONVERSION;
+float stbd_servo_cmd = 150.0 * ANGLE_CONVERSION;
+float port_servo_pos;
+float stbd_servo_pos;
+
+// Startup Thruser Forces
+int port_thrust = ZERO_THRUST;
+int stbd_thrust = ZERO_THRUST;
+int aft_thrust = ZERO_THRUST;
+
+// Thruster PWM Interfaces
 Servo aft_thruster;
 Servo port_thruster;
 Servo stbd_thruster;
 
+ros::NodeHandle nh;
+
+void callback( const jaws2_msgs::ServoCommand& servos){
+  
+  port_servo_cmd = servos.port_cmd * ANGLE_CONVERSION;
+  stbd_servo_cmd = servos.stbd_cmd * ANGLE_CONVERSION;
+  
+  digitalWrite(13, HIGH-digitalRead(13));
+}
+
+jaws2_msgs::ServoState state;
+ros::Subscriber<jaws2_msgs::ServoCommand> command("servo/command", &callback);
+ros::Publisher servos("servo/state", &state);
+
 void setup()
 {
-  nh.initNode();
-  nh.advertise(state_pub);
-  state.layout.data_offset = 0;
-  state.layout.dim[0].label = "command";
-  state.layout.dim[0].size = 2;
-  state.layout.dim[0].stride = 2;
-
   ax12Init(1000000);
-  aft_thruster.attach(AFT_THRUSTER);
+
+  SetPosition(PORT_SERVO, port_servo_cmd);
+  SetPosition(STBD_SERVO, stbd_servo_cmd);
+    
   port_thruster.attach(PORT_THRUSTER);
   stbd_thruster.attach(STBD_THRUSTER);
+  aft_thruster.attach(AFT_THRUSTER);
 
-  SetPosition(PORT_SERVO, 150 * ANGLE_CONVERSION);
-  SetPosition(STBD_SERVO, 150 * ANGLE_CONVERSION);
-  aft_thruster.writeMicroseconds(ZERO_THRUST);
-  port_thruster.writeMicroseconds(ZERO_THRUST);
-  stbd_thruster.writeMicroseconds(ZERO_THRUST);
+  port_thruster.writeMicroseconds(port_thrust);
+  stbd_thruster.writeMicroseconds(stbd_thrust);
+  aft_thruster.writeMicroseconds(aft_thrust);
+    
+  nh.initNode();
+  nh.subscribe(command);
+  nh.advertise(servos);
+  
+  pinMode(13, OUTPUT);
 }
 
 void loop()
 {
-  nh.spinOnce();
-  port_servo_pos = GetPosition(PORT_SERVO);
-  stbd_servo_pos = GetPosition(STBD_SERVO);
-  if(port_servo_pos == port_servo_cmd && stbd_servo_pos == stbd_servo_cmd)
+  port_servo_pos = GetPosition(PORT_SERVO) / ANGLE_CONVERSION;
+  stbd_servo_pos = GetPosition(STBD_SERVO) / ANGLE_CONVERSION;
+  
+  state.port_pos = port_servo_pos;
+  state.stbd_pos = stbd_servo_pos;
+  // Conversions?
+  state.port_vel = GetSpeed(PORT_SERVO);
+  state.stbd_vel = GetSpeed(STBD_SERVO);
+  state.port_eff = GetLoad(PORT_SERVO);
+  state.stbd_eff = GetLoad(STBD_SERVO);
+  
+  servos.publish( &state );
+
+  if((abs(port_servo_pos - port_servo_cmd) < 48 ) && (abs(stbd_servo_pos - stbd_servo_cmd) < 48))
   {
     port_thruster.writeMicroseconds(port_thrust);
     stbd_thruster.writeMicroseconds(stbd_thrust);
     aft_thruster.writeMicroseconds(aft_thrust);
   }
-  else // Thrusters not in position yet:
+  else
   {
     port_thruster.writeMicroseconds(ZERO_THRUST);
     stbd_thruster.writeMicroseconds(ZERO_THRUST);
     aft_thruster.writeMicroseconds(ZERO_THRUST);
   }
-  state.data[0] = port_servo_pos;
-  state.data[1] = stbd_servo_pos;
-  state.data[2] = GetSpeed(PORT_SERVO);
-  state.data[3] = GetSpeed(STBD_SERVO);
-  state.data[4] = GetLoad(PORT_SERVO);
-  state.data[5] = GetLoad(STBD_SERVO);
-  state_pub.publish(&state);
+
+  nh.spinOnce();
   delay(33);
 }
+
