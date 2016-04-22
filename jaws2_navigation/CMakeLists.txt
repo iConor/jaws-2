@@ -6,10 +6,7 @@ find_package(Ceres REQUIRED)
 
 catkin_package()
 
-include_directories(${catkin_INCLUDE_DIRS} ${CERES_INCLUDE_DIRS})
-
-add_executable(thrust_mapper src/thrust_mapper.cpp)
-target_link_libraries(thrust_mapper ${catkin_LIBRARIES} ${CERES_LIBRARIES})
+include_directories(${catkin_INCLUDE_DIRS})
 
 add_executable(thrust_cal src/thrust_cal.cpp)
 add_dependencies(thrust_cal jaws2_msgs_gencpp)
