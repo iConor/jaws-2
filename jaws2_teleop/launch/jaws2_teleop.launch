@@ -1,4 +1,4 @@
 <launch>
   <node name="joystick_driver" pkg="joy" type="joy_node"/>
-  <node name="joystick_teleop" pkg="jaws2_teleop" type="accel_error"/>
+  <node name="joystick_teleop" pkg="mirror_teleop" type="accel_cmd"/>
 </launch>
