@@ -13,3 +13,6 @@ target_link_libraries(serial_port ${catkin_LIBRARIES})
 
 add_executable(hardware_interface src/hardware_interface.cpp)
 target_link_libraries(hardware_interface ${catkin_LIBRARIES})
+
+add_executable(thrust_cal src/thrust_cal.cpp)
+target_link_libraries(thrust_cal ${catkin_LIBRARIES})
