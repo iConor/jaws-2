@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>jaws2_launch</name>
+  <name>jaws2_bringup</name>
   <version>0.3.0</version>
   <description>Launch files for Jaws 2.</description>
 

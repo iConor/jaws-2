@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(jaws2_launch)
+project(jaws2_bringup)
 
 find_package(catkin REQUIRED COMPONENTS)
 
